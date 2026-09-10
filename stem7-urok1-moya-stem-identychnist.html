@@ -1,0 +1,1376 @@
+<title>Моя STEM-ідентичність</title>
+<meta name="description" content="Інтерактивний урок STEM, 7 клас, урок 1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f6f7fc;
+    --surface:#ffffff;
+    --surface-2:#eef0fa;
+    --surface-3:#e3e6f6;
+    --border:#dde1f2;
+    --ink:#161b2e;
+    --ink-dim:#565f82;
+    --ink-faint:#8790b3;
+    --accent:#7c3aed;
+    --accent-ink:#ffffff;
+    --accent-soft:#efe8fe;
+    --s:#2563eb; --s-soft:#e3ecfd;
+    --t:#0d9488; --t-soft:#dcf5f1;
+    --e:#d97706; --e-soft:#fbebd3;
+    --m:#db2777; --m-soft:#fbe1ee;
+    --good:#0d9488; --bad:#dc2626;
+    --shadow: 0 1px 2px rgba(20,24,50,.04), 0 10px 30px -12px rgba(20,24,50,.16);
+    --shadow-lg: 0 20px 60px -20px rgba(20,24,50,.35);
+    --font-display:'Unbounded','Segoe UI',system-ui,sans-serif;
+    --font-body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+    --font-mono:'IBM Plex Mono','SFMono-Regular',Consolas,monospace;
+    --radius-s:10px; --radius-m:16px; --radius-l:24px;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0a0e1c;
+      --surface:#121729;
+      --surface-2:#171d33;
+      --surface-3:#1f2640;
+      --border:#2a3153;
+      --ink:#eef0fb;
+      --ink-dim:#a3aad0;
+      --ink-faint:#6c7398;
+      --accent:#a78bfa;
+      --accent-ink:#171227;
+      --accent-soft:#241c40;
+      --s:#60a5fa; --s-soft:#182645;
+      --t:#2dd4bf; --t-soft:#122c2a;
+      --e:#fbbf24; --e-soft:#332510;
+      --m:#f472b6; --m-soft:#3a1a2c;
+      --good:#2dd4bf; --bad:#f87171;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -12px rgba(0,0,0,.5);
+      --shadow-lg: 0 20px 60px -20px rgba(0,0,0,.7);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0e1c;
+    --surface:#121729;
+    --surface-2:#171d33;
+    --surface-3:#1f2640;
+    --border:#2a3153;
+    --ink:#eef0fb;
+    --ink-dim:#a3aad0;
+    --ink-faint:#6c7398;
+    --accent:#a78bfa;
+    --accent-ink:#171227;
+    --accent-soft:#241c40;
+    --s:#60a5fa; --s-soft:#182645;
+    --t:#2dd4bf; --t-soft:#122c2a;
+    --e:#fbbf24; --e-soft:#332510;
+    --m:#f472b6; --m-soft:#3a1a2c;
+    --good:#2dd4bf; --bad:#f87171;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -12px rgba(0,0,0,.5);
+    --shadow-lg: 0 20px 60px -20px rgba(0,0,0,.7);
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    opacity:.5;
+    background-image:
+      radial-gradient(circle at 3px 3px, var(--border) 1px, transparent 1.6px);
+    background-size: 34px 34px;
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 15%, black 40%, transparent 85%);
+            mask-image: radial-gradient(ellipse 90% 70% at 50% 15%, black 40%, transparent 85%);
+  }
+  h1,h2,h3,.display{font-family:var(--font-display); text-wrap:balance; letter-spacing:.005em;}
+  .mono{font-family:var(--font-mono);}
+  p{line-height:1.6;}
+  button{font-family:inherit;}
+  ::selection{background:var(--accent-soft); color:var(--ink);}
+
+  .deck{position:relative; height:100dvh; width:100%; z-index:1;}
+
+  .topbar{
+    position:fixed; top:0; left:0; right:0; z-index:40;
+    display:flex; align-items:center; gap:14px;
+    padding:12px clamp(16px,4vw,36px);
+    background:linear-gradient(to bottom, color-mix(in srgb, var(--bg) 92%, transparent), transparent);
+    pointer-events:none;
+  }
+  .topbar > *{pointer-events:auto;}
+  .brand{
+    display:flex; align-items:center; gap:9px;
+    font-family:var(--font-display); font-weight:700; font-size:.8rem;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--ink-dim);
+  }
+  .brand .stem-mark{display:inline-flex; gap:2px;}
+  .brand .stem-mark b{font-weight:800; font-size:1rem;}
+  .brand .stem-mark b:nth-child(1){color:var(--s);}
+  .brand .stem-mark b:nth-child(2){color:var(--t);}
+  .brand .stem-mark b:nth-child(3){color:var(--e);}
+  .brand .stem-mark b:nth-child(4){color:var(--m);}
+  .progress-track{
+    flex:1; height:5px; border-radius:99px; background:var(--surface-3);
+    overflow:hidden; box-shadow:inset 0 0 0 1px var(--border);
+  }
+  .progress-fill{
+    height:100%; border-radius:99px;
+    background:linear-gradient(90deg,var(--s),var(--t),var(--e),var(--m));
+    transition:width .45s cubic-bezier(.4,0,.2,1);
+    width:11%;
+  }
+  .icon-btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:38px; height:38px; border-radius:99px;
+    background:var(--surface); border:1px solid var(--border); color:var(--ink);
+    cursor:pointer; box-shadow:var(--shadow); transition:transform .15s, border-color .15s;
+  }
+  .icon-btn:hover{border-color:var(--accent); transform:translateY(-1px);}
+  .icon-btn:focus-visible, a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
+    outline:2.5px solid var(--accent); outline-offset:2px;
+  }
+
+  .slide{
+    position:absolute; inset:0; padding: 88px clamp(16px,5vw,72px) 96px;
+    display:flex; flex-direction:column; justify-content:flex-start;
+    opacity:0; transform:translateY(14px);
+    pointer-events:none; transition:opacity .5s ease, transform .5s ease;
+    overflow-y:auto;
+  }
+  .slide-inner{margin-top:auto; margin-bottom:auto;}
+  .slide.active{opacity:1; transform:translateY(0); pointer-events:auto;}
+  .slide-inner{max-width:1180px; margin:0 auto; width:100%;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--accent); background:var(--accent-soft); border-radius:99px;
+    padding:6px 14px; margin-bottom:18px; font-weight:600;
+  }
+  .slide h2{font-size:clamp(1.6rem,3.4vw,2.5rem); margin:0 0 10px; font-weight:700;}
+  .lede{color:var(--ink-dim); font-size:1.05rem; max-width:62ch; margin:0 0 28px;}
+
+  .bottombar{
+    position:fixed; left:0; right:0; bottom:0; z-index:40;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:14px clamp(16px,4vw,36px);
+    background:linear-gradient(to top, color-mix(in srgb, var(--bg) 94%, transparent), transparent);
+    pointer-events:none;
+  }
+  .bottombar > *{pointer-events:auto;}
+  .nav-cluster{display:flex; align-items:center; gap:10px;}
+  .nav-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    height:44px; padding:0 18px; border-radius:99px;
+    background:var(--surface); border:1px solid var(--border); color:var(--ink);
+    font-weight:600; font-size:.92rem; cursor:pointer; box-shadow:var(--shadow);
+    transition:transform .15s, border-color .15s, opacity .15s;
+  }
+  .nav-btn:hover{border-color:var(--accent); transform:translateY(-1px);}
+  .nav-btn:disabled{opacity:.35; cursor:not-allowed; transform:none;}
+  .nav-btn.primary{background:var(--accent); color:var(--accent-ink); border-color:transparent;}
+  .counter{
+    font-family:var(--font-mono); font-size:.85rem; color:var(--ink-faint);
+    min-width:64px; text-align:center; font-variant-numeric:tabular-nums;
+  }
+  .hint{font-size:.76rem; color:var(--ink-faint); display:flex; align-items:center; gap:6px;}
+  .kbd{
+    font-family:var(--font-mono); font-size:.72rem; border:1px solid var(--border);
+    border-bottom-width:2px; border-radius:5px; padding:1px 6px; background:var(--surface);
+  }
+  @media (max-width:720px){ .hint{display:none;} }
+
+  .menu-overlay{
+    position:fixed; inset:0; z-index:60; display:none;
+    background:color-mix(in srgb, var(--bg) 55%, transparent);
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    align-items:center; justify-content:center; padding:24px;
+  }
+  .menu-overlay.open{display:flex;}
+  .menu-card{
+    width:min(640px,100%); max-height:82vh; overflow-y:auto;
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-l);
+    box-shadow:var(--shadow-lg); padding:22px;
+  }
+  .menu-card h3{margin:0 0 4px; font-size:1.1rem;}
+  .menu-card .lede{margin-bottom:16px; font-size:.9rem;}
+  .menu-list{display:grid; gap:6px;}
+  .menu-item{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left;
+    padding:11px 12px; border-radius:var(--radius-s); border:1px solid transparent;
+    background:transparent; cursor:pointer; color:var(--ink);
+  }
+  .menu-item:hover{background:var(--surface-2); border-color:var(--border);}
+  .menu-item.current{background:var(--accent-soft); border-color:var(--accent);}
+  .menu-item .num{
+    font-family:var(--font-mono); font-size:.78rem; color:var(--ink-faint);
+    width:22px; flex:none;
+  }
+  .menu-item .ttl{font-weight:600; font-size:.92rem;}
+  .menu-item .sub{font-size:.78rem; color:var(--ink-dim); font-weight:400;}
+
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-m);
+    box-shadow:var(--shadow); padding:20px;
+  }
+  .grid{display:grid; gap:16px;}
+  .g2{grid-template-columns:1fr 1fr;}
+  .g3{grid-template-columns:repeat(3,1fr);}
+  .g4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:900px){ .g2,.g3,.g4{grid-template-columns:1fr;} }
+  @media (min-width:901px) and (max-width:1100px){ .g4{grid-template-columns:repeat(2,1fr);} }
+
+  .badge{
+    display:inline-flex; align-items:center; gap:6px; font-size:.72rem; font-weight:700;
+    letter-spacing:.03em; padding:4px 10px; border-radius:99px; font-family:var(--font-mono);
+  }
+  .letter-tile{border-radius:var(--radius-m); padding:18px; border:1px solid var(--border); background:var(--surface); position:relative; overflow:hidden;}
+  .letter-tile::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px;}
+  .letter-tile[data-l="S"]::before{background:var(--s);} .letter-tile[data-l="T"]::before{background:var(--t);}
+  .letter-tile[data-l="E"]::before{background:var(--e);} .letter-tile[data-l="M"]::before{background:var(--m);}
+  .letter-glyph{
+    font-family:var(--font-display); font-weight:800; font-size:2.1rem; line-height:1;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:52px; height:52px; border-radius:14px; flex:none;
+  }
+  [data-l="S"] .letter-glyph{color:var(--s); background:var(--s-soft);}
+  [data-l="T"] .letter-glyph{color:var(--t); background:var(--t-soft);}
+  [data-l="E"] .letter-glyph{color:var(--e); background:var(--e-soft);}
+  [data-l="M"] .letter-glyph{color:var(--m); background:var(--m-soft);}
+
+  .chip{
+    display:inline-flex; align-items:center; gap:7px; padding:8px 13px; border-radius:99px;
+    border:1.5px solid var(--border); background:var(--surface-2); font-size:.86rem; font-weight:600;
+    cursor:pointer; transition:border-color .15s, background .15s;
+  }
+  .chip:hover{border-color:var(--accent);}
+  .chip.done{opacity:.55;}
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:99px;
+    font-weight:600; font-size:.9rem; border:1px solid var(--border); background:var(--surface);
+    color:var(--ink); cursor:pointer; transition:transform .15s, border-color .15s;
+  }
+  .btn:hover{transform:translateY(-1px); border-color:var(--accent);}
+  .btn.primary{background:var(--accent); color:var(--accent-ink); border-color:transparent;}
+  .btn.ghost{background:transparent;}
+  .btn:disabled{opacity:.4; cursor:not-allowed; transform:none;}
+  .btn.small{padding:7px 13px; font-size:.8rem;}
+
+  table{width:100%; border-collapse:collapse; font-size:.92rem;}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); font-weight:600;}
+  .table-wrap{overflow-x:auto; border-radius:var(--radius-m); border:1px solid var(--border);}
+  .table-wrap table{margin:0;}
+  .table-wrap th,.table-wrap td{border-color:var(--border);}
+  .table-wrap tr:last-child td{border-bottom:none;}
+
+  input[type="checkbox"]{
+    appearance:none; width:20px; height:20px; border-radius:6px; border:2px solid var(--border);
+    background:var(--surface); display:inline-grid; place-content:center; cursor:pointer; flex:none;
+  }
+  input[type="checkbox"]::before{content:""; width:11px; height:11px; transform:scale(0); border-radius:2px; background:var(--accent); transition:transform .12s;}
+  input[type="checkbox"]:checked{border-color:var(--accent);}
+  input[type="checkbox"]:checked::before{transform:scale(1);}
+  textarea,input[type="text"]{
+    width:100%; border-radius:var(--radius-s); border:1.5px solid var(--border); background:var(--surface-2);
+    color:var(--ink); padding:10px 12px; font-family:var(--font-body); font-size:.9rem; resize:vertical;
+  }
+  textarea:focus,input[type="text"]:focus{outline:none; border-color:var(--accent); background:var(--surface);}
+
+  #s1{background:radial-gradient(ellipse 1100px 560px at 82% -8%, var(--accent-soft), transparent 60%);}
+  .title-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:44px; align-items:center;}
+  @media (max-width:980px){ .title-grid{grid-template-columns:1fr;} }
+  .stem-hero{display:flex; gap:10px; margin:6px 0 22px;}
+  .stem-hero span{
+    font-family:var(--font-display); font-weight:800; font-size:clamp(2.6rem,7vw,4.6rem);
+    line-height:1; border-radius:18px; width:1.5em; height:1.5em; display:inline-flex;
+    align-items:center; justify-content:center; opacity:0; transform:translateY(16px) scale(.9);
+    animation: letterIn .55s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  .stem-hero span:nth-child(1){background:var(--s-soft); color:var(--s); animation-delay:.05s;}
+  .stem-hero span:nth-child(2){background:var(--t-soft); color:var(--t); animation-delay:.18s;}
+  .stem-hero span:nth-child(3){background:var(--e-soft); color:var(--e); animation-delay:.31s;}
+  .stem-hero span:nth-child(4){background:var(--m-soft); color:var(--m); animation-delay:.44s;}
+  @keyframes letterIn{to{opacity:1; transform:translateY(0) scale(1);}}
+  @media (prefers-reduced-motion: reduce){
+    .stem-hero span{animation:none; opacity:1; transform:none;}
+    *{transition-duration:.01ms !important; animation-duration:.01ms !important;}
+  }
+  .meta-row{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px;}
+  .meta-pill{
+    display:inline-flex; align-items:center; gap:7px; font-size:.78rem; font-weight:600;
+    padding:6px 12px; border-radius:99px; background:var(--surface-2); border:1px solid var(--border); color:var(--ink-dim);
+  }
+  .outcome-list{display:grid; gap:10px; margin-top:8px;}
+  .outcome-item{display:flex; gap:12px; align-items:flex-start; padding:12px 14px; border-radius:var(--radius-s); background:var(--surface-2); border:1px solid var(--border);}
+  .outcome-item i{color:var(--good); margin-top:2px;}
+  .question-card{
+    background:linear-gradient(155deg, var(--surface), var(--surface-2));
+    border:1px solid var(--border); border-radius:var(--radius-l); padding:26px;
+    box-shadow:var(--shadow);
+  }
+  .question-card .tag{font-family:var(--font-mono); font-size:.72rem; color:var(--accent); text-transform:uppercase; letter-spacing:.1em; font-weight:700;}
+  .question-card blockquote{margin:12px 0 0; font-family:var(--font-display); font-weight:600; font-size:1.25rem; line-height:1.4;}
+  .device-icon{width:100%; max-width:210px; height:150px; border-radius:28px; display:flex; align-items:center; justify-content:center; padding:14px; background:var(--surface-2); border:1px solid var(--border); margin:0 auto;}
+  .device-icon svg{width:100%; height:100%;}
+  .art-frame{width:100%; max-width:260px; aspect-ratio:16/11; margin:0 auto; border-radius:28px; background:var(--surface-2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; padding:16px;}
+  .art-frame svg{width:100%; height:100%;}
+  .stem-legend{display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:14px;}
+  .leg-dot{display:inline-flex; align-items:center; gap:6px; font-size:.74rem; color:var(--ink-dim); font-weight:600;}
+  .leg-dot i{width:9px; height:9px; border-radius:50%; display:inline-block;}
+  .leg-dot[data-c="S"] i{background:var(--s);} .leg-dot[data-c="T"] i{background:var(--t);}
+  .leg-dot[data-c="E"] i{background:var(--e);} .leg-dot[data-c="M"] i{background:var(--m);}
+
+  .online-note{
+    display:flex; gap:12px; align-items:flex-start; padding:15px 18px; border-radius:var(--radius-m);
+    background:var(--accent-soft); border:1px solid color-mix(in srgb, var(--accent) 40%, transparent); margin-bottom:18px;
+  }
+  .online-note i{color:var(--accent); margin-top:3px;}
+  .online-note b{color:var(--accent);}
+  .link-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .link-row .lbl{width:130px; flex:none; font-size:.82rem; font-weight:600;}
+  .link-row input{font-family:var(--font-mono); font-size:.8rem; flex:1; width:auto; min-width:160px;}
+  .poll-hint{font-size:.76rem; color:var(--ink-faint); margin:4px 0 10px; line-height:1.5;}
+
+  .riddle-wrap{display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start;}
+  @media (max-width:900px){ .riddle-wrap{grid-template-columns:1fr;} }
+  .riddle-stage{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-l); padding:26px;
+    box-shadow:var(--shadow); min-height:300px; display:flex; flex-direction:column;
+  }
+  .riddle-dots{display:flex; gap:7px; margin-bottom:16px;}
+  .riddle-dots i{width:26px; height:6px; border-radius:99px; background:var(--surface-3); display:block;}
+  .riddle-dots i.on{background:var(--accent);}
+  .riddle-line{font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-faint); font-weight:700; font-family:var(--font-mono); margin-bottom:6px;}
+  .riddle-q{font-size:1.12rem; font-weight:600; margin:0 0 14px; line-height:1.5;}
+  .riddle-a{
+    background:var(--surface-2); border:1px dashed var(--border); border-radius:var(--radius-s); padding:14px;
+    font-size:.95rem; color:var(--ink-dim); min-height:52px; display:flex; align-items:center;
+  }
+  .riddle-a.revealed{color:var(--ink); border-style:solid; border-color:var(--accent);}
+  .riddle-letter-strip{display:flex; gap:8px; margin-top:auto; padding-top:18px;}
+  .riddle-letter-strip .lslot{
+    flex:1; aspect-ratio:1; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-weight:800; font-size:1.4rem; border:1.5px dashed var(--border); color:var(--ink-faint);
+    transition:all .3s;
+  }
+  .riddle-letter-strip .lslot.filled{border-style:solid;}
+  .riddle-letter-strip .lslot.filled[data-l="S"]{background:var(--s-soft); color:var(--s); border-color:var(--s);}
+  .riddle-letter-strip .lslot.filled[data-l="T"]{background:var(--t-soft); color:var(--t); border-color:var(--t);}
+  .riddle-letter-strip .lslot.filled[data-l="E"]{background:var(--e-soft); color:var(--e); border-color:var(--e);}
+  .riddle-letter-strip .lslot.filled[data-l="M"]{background:var(--m-soft); color:var(--m); border-color:var(--m);}
+  .riddle-controls{display:flex; justify-content:space-between; margin-top:18px;}
+  .riddle-side{display:flex; flex-direction:column; gap:14px;}
+
+  .flip-card{perspective:1200px; height:198px;}
+  .flip-inner{position:relative; width:100%; height:100%; transition:transform .55s cubic-bezier(.4,0,.2,1); transform-style:preserve-3d; cursor:pointer;}
+  .flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+  .flip-face{position:absolute; inset:0; backface-visibility:hidden; border-radius:var(--radius-m); border:1px solid var(--border); padding:18px; display:flex; flex-direction:column;}
+  .flip-front{background:var(--surface); box-shadow:var(--shadow);}
+  .flip-back{background:var(--surface); transform:rotateY(180deg); box-shadow:var(--shadow);}
+  .flip-hint{margin-top:auto; font-size:.72rem; color:var(--ink-faint); display:flex; align-items:center; gap:5px;}
+
+  .mistake-note{
+    display:flex; gap:12px; align-items:flex-start; padding:16px 18px; border-radius:var(--radius-m);
+    background:var(--e-soft); border:1px solid color-mix(in srgb, var(--e) 40%, transparent);
+  }
+  .mistake-note i{color:var(--e); margin-top:3px;}
+  .mistake-note b{color:var(--e);}
+
+  .device-tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;}
+  .device-tab{
+    display:flex; align-items:center; gap:9px; padding:9px 16px; border-radius:99px;
+    border:1.5px solid var(--border); background:var(--surface); cursor:pointer; font-weight:600; font-size:.88rem;
+  }
+  .device-tab.active{border-color:var(--accent); background:var(--accent-soft); color:var(--accent);}
+  .classifier-grid{display:grid; grid-template-columns:1fr 1.3fr; gap:22px;}
+  @media (max-width:980px){ .classifier-grid{grid-template-columns:1fr;} }
+  .part-chip{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 14px;
+    border-radius:var(--radius-s); border:1.5px solid var(--border); background:var(--surface); margin-bottom:9px;
+  }
+  .part-chip .txt{font-weight:600; font-size:.9rem;}
+  .cat-btns{display:flex; gap:5px;}
+  .cat-btn{
+    width:30px; height:30px; border-radius:9px; border:1.5px solid var(--border); background:var(--surface-2);
+    font-family:var(--font-mono); font-weight:700; font-size:.78rem; cursor:pointer; color:var(--ink-dim);
+  }
+  .cat-btn[data-c="S"].active{background:var(--s); border-color:var(--s); color:#fff;}
+  .cat-btn[data-c="T"].active{background:var(--t); border-color:var(--t); color:#fff;}
+  .cat-btn[data-c="E"].active{background:var(--e); border-color:var(--e); color:#fff;}
+  .cat-btn[data-c="M"].active{background:var(--m); border-color:var(--m); color:#fff;}
+  .buckets{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .bucket{border-radius:var(--radius-m); border:1.5px solid var(--border); padding:12px; min-height:120px; background:var(--surface);}
+  .bucket h4{margin:0 0 8px; font-size:.85rem; display:flex; align-items:center; gap:7px;}
+  .bucket[data-c="S"] h4{color:var(--s);} .bucket[data-c="T"] h4{color:var(--t);}
+  .bucket[data-c="E"] h4{color:var(--e);} .bucket[data-c="M"] h4{color:var(--m);}
+  .bucket-item{font-size:.82rem; padding:6px 9px; border-radius:7px; background:var(--surface-2); margin-bottom:6px;}
+  .reveal-note{font-size:.8rem; color:var(--ink-dim); margin-top:5px; padding-left:2px; display:none;}
+  .reveal-note.on{display:block;}
+
+  .timer-box{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-l); padding:22px;
+    display:flex; flex-direction:column; align-items:center; gap:14px; box-shadow:var(--shadow);
+  }
+  .timer-display{font-family:var(--font-mono); font-weight:600; font-size:3.4rem; letter-spacing:.02em; font-variant-numeric:tabular-nums;}
+  .timer-ring{position:relative; width:150px; height:150px;}
+  .timer-presets{display:flex; gap:8px;}
+  .timer-controls{display:flex; gap:10px;}
+
+  .role-card{display:flex; gap:12px; align-items:flex-start; padding:14px; border-radius:var(--radius-m); border:1px solid var(--border); background:var(--surface);}
+  .role-card .ricon{width:40px; height:40px; border-radius:11px; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; flex:none;}
+  .role-card b{font-size:.92rem;}
+  .role-card p{margin:3px 0 0; font-size:.82rem; color:var(--ink-dim);}
+
+  .checklist{display:grid; gap:9px;}
+  .check-row{display:flex; gap:11px; align-items:flex-start; padding:11px 13px; border-radius:var(--radius-s); border:1px solid var(--border); background:var(--surface);}
+  .check-row label{font-size:.9rem; cursor:pointer;}
+  .check-row.done label{color:var(--ink-faint); text-decoration:line-through;}
+  .check-row small{display:block; color:var(--ink-dim); font-weight:400; margin-top:2px; font-size:.8rem;}
+
+  .rubric-row td:first-child{font-weight:700; white-space:nowrap;}
+  .rubric-row[data-lv="1"] td:first-child{color:var(--e);}
+  .rubric-row[data-lv="2"] td:first-child{color:var(--t);}
+  .rubric-row[data-lv="3"] td:first-child{color:var(--m);}
+
+  .pull{
+    font-family:var(--font-display); font-weight:600; font-size:clamp(1.15rem,2.3vw,1.6rem); line-height:1.5;
+    padding:26px 30px; border-radius:var(--radius-l); background:linear-gradient(155deg,var(--surface),var(--surface-2));
+    border:1px solid var(--border); position:relative;
+  }
+  .pull i.fa-quote-left{position:absolute; top:18px; left:20px; opacity:.15; font-size:1.6rem;}
+
+  .quiz-item{border:1px solid var(--border); border-radius:var(--radius-m); padding:16px 18px; background:var(--surface); margin-bottom:14px;}
+  .quiz-q{font-weight:600; margin:0 0 12px; font-size:.98rem;}
+  .quiz-opts{display:grid; gap:8px;}
+  .opt-btn{
+    text-align:left; padding:10px 13px; border-radius:var(--radius-s); border:1.5px solid var(--border);
+    background:var(--surface-2); cursor:pointer; font-size:.88rem; color:var(--ink);
+  }
+  .opt-btn.correct{border-color:var(--good); background:color-mix(in srgb, var(--good) 14%, var(--surface-2));}
+  .opt-btn.wrong{border-color:var(--bad); background:color-mix(in srgb, var(--bad) 14%, var(--surface-2));}
+  .opt-btn:disabled{cursor:default;}
+  .quiz-score{
+    display:flex; align-items:center; justify-content:space-between; gap:14px; padding:16px 20px;
+    border-radius:var(--radius-m); background:var(--accent-soft); border:1px solid var(--accent);
+  }
+
+  .poll-box{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-m); padding:18px;}
+  .poll-btns{display:flex; gap:8px; margin:12px 0;}
+  .poll-btn{flex:1; padding:12px 6px; border-radius:var(--radius-s); border:1.5px solid var(--border); background:var(--surface-2); cursor:pointer; font-family:var(--font-display); font-weight:700;}
+  .poll-btn[data-c="S"]{color:var(--s);} .poll-btn[data-c="T"]{color:var(--t);}
+  .poll-btn[data-c="E"]{color:var(--e);} .poll-btn[data-c="M"]{color:var(--m);}
+  .poll-btn:hover{border-color:currentColor;}
+  .chart-wrap{height:150px;}
+  .fallback-bars{display:flex; flex-direction:column; gap:10px; justify-content:center; height:100%;}
+  .fb-row{display:grid; grid-template-columns:20px 1fr 26px; align-items:center; gap:10px;}
+  .fb-label{font-family:var(--font-display); font-weight:700; font-size:.85rem;}
+  .fb-track{height:10px; border-radius:99px; background:var(--surface-3); overflow:hidden;}
+  .fb-fill{display:block; height:100%; border-radius:99px; transition:width .3s;}
+  .fb-count{font-size:.78rem; color:var(--ink-faint); text-align:right;}
+
+  .home-card{display:flex; gap:16px; align-items:flex-start;}
+  .home-card .hicon{width:52px; height:52px; border-radius:14px; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex:none;}
+  .example-fmt{font-family:var(--font-mono); font-size:.84rem; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-s); padding:14px; line-height:1.7;}
+
+  .foot-note{font-size:.78rem; color:var(--ink-faint); margin-top:22px; display:flex; align-items:center; gap:7px;}
+</style>
+
+<div class="deck">
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="stem-mark"><b>S</b><b>T</b><b>E</b><b>M</b></span>
+      <span>· 7 клас · Урок 1</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <button class="icon-btn" id="menuBtn" aria-label="Меню слайдів" title="Меню слайдів"><i class="fa-solid fa-grip"></i></button>
+    <button class="icon-btn" id="themeBtn" aria-label="Змінити тему" title="Змінити тему"><i class="fa-solid fa-circle-half-stroke"></i></button>
+  </div>
+
+  <main id="slides">
+
+    <section class="slide" id="s1" data-title="Титул" data-sub="Моя STEM-ідентичність">
+      <div class="slide-inner title-grid">
+        <div>
+          <div class="meta-row">
+            <span class="meta-pill"><i class="fa-solid fa-layer-group"></i>Курс STEM · 7 клас</span>
+            <span class="meta-pill"><i class="fa-solid fa-book-open"></i>Урок 1</span>
+            <span class="meta-pill"><i class="fa-solid fa-clock"></i>45 хвилин</span>
+            <span class="meta-pill"><i class="fa-solid fa-video"></i>Онлайн · Zoom / Meet / Teams</span>
+          </div>
+          <div class="stem-hero" aria-hidden="true">
+            <span>S</span><span>T</span><span>E</span><span>M</span>
+          </div>
+          <h1 style="font-size:clamp(1.7rem,3.6vw,2.7rem); margin:0 0 12px; font-weight:700;">Моя STEM-ідентичність</h1>
+          <p class="lede">Вступний урок курсу: розбираємось, що насправді означає абревіатура STEM, і вчимось бачити науку, технології, інженерію та математику в одному звичайному пристрої навколо нас.</p>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i><span>Пояснюю, що означає кожна літера S-T-E-M, і яке запитання вона ставить про пристрій.</span></div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i><span>Аналізую реальний пристрій і відношу його складові до S, T, E або M з поясненням «чому».</span></div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i><span>Розрізняю технологію (матеріал/процес) та інженерію (конструкція/механізм) — типову плутанину.</span></div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i><span>Розумію STEM як спосіб бачити світ цілісно, а не як окремий шкільний предмет.</span></div>
+          </div>
+        </div>
+        <div class="question-card">
+          <span class="tag"><i class="fa-solid fa-bullseye"></i> Дослідницьке питання уроку</span>
+          <blockquote>«Скільки різних наук насправді ховається в одному звичайному предметі — і до яких галузей причетний(а) я сам(а)?»</blockquote>
+          <div style="margin-top:20px; padding-top:18px; border-top:1px dashed var(--border); font-size:.85rem; color:var(--ink-dim);">
+            Розпочнемо з ліхтарика на батарейках — і за 45 хвилин дійдемо до аналізу власного смартфона, велосипеда чи чайника.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s2" data-title="Розігрів" data-sub="Загадка про ліхтарик">
+      <div class="slide-inner">
+        <span class="eyebrow"><i class="fa-solid fa-lightbulb"></i> Актуалізація</span>
+        <h2>Скільки наук у звичайному ліхтарику?</h2>
+        <p class="lede">Увімкніть демонстрацію екрана (screen share) із зображенням ліхтарика на батарейках — або покажіть його перед камерою. Натискайте «Наступна підказка», щоб пройти діалог кроками — так само, як на уроці.</p>
+        <div class="riddle-wrap">
+          <div class="riddle-stage">
+            <div class="riddle-dots" id="riddleDots"></div>
+            <div id="riddleBody"></div>
+            <div class="riddle-controls">
+              <button class="btn ghost small" id="riddlePrev"><i class="fa-solid fa-arrow-left"></i> Назад</button>
+              <button class="btn primary small" id="riddleNext">Наступна підказка <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+          <div class="riddle-side">
+            <div class="card" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <div style="width:130px; height:96px;" id="flashlightArt"></div>
+              <span style="font-size:.78rem; color:var(--ink-faint);">Ліхтарик на батарейках</span>
+            </div>
+            <div class="card">
+              <b style="font-size:.9rem;">Складається слово STEM</b>
+              <div class="riddle-letter-strip" id="letterStrip">
+                <div class="lslot" data-l="S">S</div>
+                <div class="lslot" data-l="T">T</div>
+                <div class="lslot" data-l="E">E</div>
+                <div class="lslot" data-l="M">M</div>
+              </div>
+            </div>
+            <div class="card" style="font-size:.88rem; color:var(--ink-dim);">
+              <i class="fa-solid fa-circle-info" style="color:var(--accent);"></i>
+              Більшість класів спочатку каже «один» або «два» предмети. Мета вправи — показати, що насправді їх щонайменше чотири, і вони працюють разом.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s3" data-title="4 галузі" data-sub="Що означають літери S-T-E-M">
+      <div class="slide-inner">
+        <span class="eyebrow"><i class="fa-solid fa-diagram-project"></i> Дослідницький блок</span>
+        <h2>Чотири запитання, чотири галузі</h2>
+        <p class="lede">Кожна літера — це не назва предмета, а конкретне запитання, яке ви ставите про пристрій. Натисніть картку, щоб побачити приклад.</p>
+        <div class="grid g4" id="letterCards"></div>
+        <div style="margin-top:20px;">
+          <div class="mistake-note">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div><b>Типова плутанина: T чи E?</b> Технологія — це запитання про <b>матеріал або процес виготовлення</b>. Інженерія — це запитання про <b>конструкцію й механізм</b>, тобто як частини з'єднані та працюють разом. Матеріал рами (алюміній) — це T; ланцюгова передача, що перетворює рух педалей на рух колеса, — це E.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s4" data-title="Приклад" data-sub="Розбираємо велосипед">
+      <div class="slide-inner">
+        <span class="eyebrow"><i class="fa-solid fa-bicycle"></i> Розібраний разом приклад</span>
+        <h2>Велосипед за 90 секунд</h2>
+        <p class="lede">Так само, як на уроці, розберемо один знайомий пристрій усім класом — перш ніж групи отримають власні картки.</p>
+        <div class="grid g2" style="align-items:start; gap:24px;">
+          <div class="card" style="display:flex; flex-direction:column; align-items:center;">
+            <div class="art-frame"><div id="bikeArt"></div></div>
+            <div class="stem-legend">
+              <span class="leg-dot" data-c="S"><i></i>S — наука</span>
+              <span class="leg-dot" data-c="T"><i></i>T — технології</span>
+              <span class="leg-dot" data-c="E"><i></i>E — інженерія</span>
+              <span class="leg-dot" data-c="M"><i></i>M — математика</span>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th style="width:70px;">Галузь</th><th>Елемент велосипеда</th><th>Чому саме так</th></tr></thead>
+              <tbody>
+                <tr><td><span class="badge" style="background:var(--s-soft); color:var(--s);">S</span></td><td>Тертя коліс об дорогу</td><td>Явище, яке дозволяє колесу зчіплюватись з дорогою й не проковзувати, — вивчає фізика.</td></tr>
+                <tr><td><span class="badge" style="background:var(--t-soft); color:var(--t);">T</span></td><td>Матеріал рами (алюміній/сталь), гумові шини</td><td>Це вибір матеріалу та технологія його обробки, а не конструкція.</td></tr>
+                <tr><td><span class="badge" style="background:var(--e-soft); color:var(--e);">E</span></td><td>Ланцюгова передача, рама + кермо</td><td>Механізм: перетворює обертання педалей на рух колеса, частини з'єднані між собою.</td></tr>
+                <tr><td><span class="badge" style="background:var(--m-soft); color:var(--m);">M</span></td><td>Розмір коліс, кількість передач, кут керма</td><td>Виражається числами, вимірюваннями, формами.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s5" data-title="Класифікатор" data-sub="Інтерактивний симулятор">
+      <div class="slide-inner">
+        <span class="eyebrow"><i class="fa-solid fa-sliders"></i> Інтерактивний симулятор</span>
+        <h2>STEM-класифікатор пристроїв</h2>
+        <p class="lede">Оберіть пристрій, позначте кожну складову літерою S, T, E чи M — так само, як групи робитимуть у спільному документі. Єдиної «правильної» відповіді немає, головне — вміти пояснити логіку.</p>
+        <div class="device-tabs" id="deviceTabs"></div>
+        <div class="classifier-grid">
+          <div>
+            <div class="device-icon" id="deviceIcon"></div>
+            <p style="text-align:center; font-size:.85rem; color:var(--ink-dim); margin:12px 0 0;" id="deviceDesc"></p>
+            <div class="stem-legend">
+              <span class="leg-dot" data-c="S"><i></i>S</span>
+              <span class="leg-dot" data-c="T"><i></i>T</span>
+              <span class="leg-dot" data-c="E"><i></i>E</span>
+              <span class="leg-dot" data-c="M"><i></i>M</span>
+            </div>
+          </div>
+          <div>
+            <div id="partsList"></div>
+            <div style="display:flex; gap:10px; margin-top:10px;">
+              <button class="btn primary small" id="revealBtn"><i class="fa-solid fa-eye"></i> Порівняти з підказкою вчителя</button>
+              <button class="btn ghost small" id="resetClassifier"><i class="fa-solid fa-rotate-left"></i> Скинути</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s6" data-title="Групова робота" data-sub="Практична діяльність">
+      <div class="slide-inner">
+        <span class="eyebrow"><i class="fa-solid fa-users"></i> Практична діяльність</span>
+        <h2>Групова робота: розбираємо свій пристрій</h2>
+        <p class="lede">5–6 груп по 4–5 осіб у breakout-кімнатах. Кожна отримує картку пристрою та посилання на спільний документ-дошку — замість паперового А3. На виконання — 14 хвилин, на презентацію групи — до 1,5 хвилини.</p>
+        <div class="online-note">
+          <i class="fa-solid fa-wifi"></i>
+          <div><b>Онлайн-логістика:</b> заздалегідь створіть breakout-кімнати (Zoom / Google Meet / Teams) і підготуйте по одному спільному документу чи дошці (Google Docs, Jamboard, Miro, Padlet) на групу — посилання внесіть у таблицю нижче. Під час роботи заглядайте в кімнати по черзі, щоб почути обговорення, а уточнювальні запитання ставте в чат кімнати.</div>
+        </div>
+        <div class="grid g2" style="align-items:start;">
+          <div>
+            <div class="grid g2" style="margin-bottom:16px;">
+              <div class="role-card"><div class="ricon"><i class="fa-solid fa-atom"></i></div><div><b>S-дослідник</b><p>Шукає наукове явище в основі роботи пристрою.</p></div></div>
+              <div class="role-card"><div class="ricon"><i class="fa-solid fa-microchip"></i></div><div><b>T-технолог</b><p>Визначає матеріали й технологічні рішення.</p></div></div>
+              <div class="role-card"><div class="ricon"><i class="fa-solid fa-gears"></i></div><div><b>E-інженер</b><p>Аналізує, з яких частин складається механізм.</p></div></div>
+              <div class="role-card"><div class="ricon"><i class="fa-solid fa-calculator"></i></div><div><b>M-математик</b><p>Знаходить числа, розміри, розрахунки.</p></div></div>
+            </div>
+            <div class="checklist" id="checklist"></div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="timer-box">
+              <div class="riddle-line" id="timerLabel">Практична робота</div>
+              <div class="timer-display mono" id="timerDisplay">14:00</div>
+              <div class="timer-presets">
+                <button class="btn small" data-preset="840">14 хв — робота</button>
+                <button class="btn small" data-preset="420">7 хв — презентації</button>
+              </div>
+              <div class="timer-controls">
+                <button class="btn primary" id="timerStart"><i class="fa-solid fa-play"></i> Старт</button>
+                <button class="btn" id="timerReset"><i class="fa-solid fa-rotate-left"></i> Скинути</button>
+              </div>
+            </div>
+            <div class="card" style="font-size:.85rem;">
+              <b style="display:flex; align-items:center; gap:7px; margin-bottom:8px;"><i class="fa-solid fa-clipboard-list" style="color:var(--accent);"></i> Критерії оцінювання (формувальне)</b>
+              <div class="table-wrap" style="border:none;">
+                <table>
+                  <tbody>
+                    <tr class="rubric-row" data-lv="1"><td>Початковий</td><td>Заповнено 1–2 сектори з 4; пояснень «чому» немає або вони загальні.</td></tr>
+                    <tr class="rubric-row" data-lv="2"><td>Достатній</td><td>Заповнено всі 4 сектори, є коротке «чому» для кожного.</td></tr>
+                    <tr class="rubric-row" data-lv="3"><td>Високий</td><td>Усі 4 сектори чітко пояснені + виконано завдання підвищеного рівня.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px;">
+          <b style="font-size:.85rem; display:flex; align-items:center; gap:7px; margin-bottom:4px;"><i class="fa-solid fa-link" style="color:var(--accent);"></i> Посилання для груп (заповніть перед уроком)</b>
+          <p style="font-size:.8rem; color:var(--ink-dim); margin:0 0 12px;">Кожна група отримує власну картку пристрою під час уроку (можна повторювати картки з додатка) — окремо від прикладів у класифікаторі на попередньому слайді.</p>
+          <div id="groupLinks" style="display:grid; gap:10px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s7" data-title="Підсумок" data-sub="Головні висновки">
+      <div class="slide-inner">
+        <span class="eyebrow"><i class="fa-solid fa-flag-checkered"></i> Підсумок</span>
+        <h2>Що ми з'ясували сьогодні</h2>
+        <div class="grid g2" style="align-items:center;">
+          <div class="pull">
+            <i class="fa-solid fa-quote-left"></i>
+            STEM — це не новий окремий предмет «про техніку», а спосіб дивитися на світ, поєднуючи науку, технології, інженерію й математику там, де в реальному житті вони й так завжди поєднані.
+          </div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i><span>У кожному проаналізованому пристрої знайшлися всі чотири складові S/T/E/M — це не збіг.</span></div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i><span>Одна деталь пристрою іноді стосується двох галузей одразу — і це нормально.</span></div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i><span>Технологія — про матеріал/процес; інженерія — про конструкцію/механізм.</span></div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i><span>Весь рік ми аналізуватимемо харчування, повітря, енергію, ландшафт саме через цю STEM-лінзу.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s8" data-title="Рефлексія" data-sub="Міні-квіз і опитування">
+      <div class="slide-inner">
+        <span class="eyebrow"><i class="fa-solid fa-brain"></i> Рефлексія</span>
+        <h2>Перевіримо, що запам'яталося</h2>
+        <div class="grid g2" style="align-items:start;">
+          <div id="quizWrap"></div>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="poll-box">
+              <b style="font-size:.9rem;">Яка галузь була найлегшою для пошуку?</b>
+              <div class="poll-hint">Зберіть відповіді голосом, у чаті чи реакціями — і натисніть кнопку від імені класу.</div>
+              <div class="poll-btns" id="pollEasy"></div>
+              <div class="chart-wrap"><canvas id="chartEasy"></canvas></div>
+            </div>
+            <div class="poll-box">
+              <b style="font-size:.9rem;">А яка — найважчою?</b>
+              <div class="poll-hint">Так само — за голосуванням у чаті чи реакціями.</div>
+              <div class="poll-btns" id="pollHard"></div>
+              <div class="chart-wrap"><canvas id="chartHard"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s9" data-title="Домашнє завдання" data-sub="STEM навколо мене">
+      <div class="slide-inner">
+        <span class="eyebrow"><i class="fa-solid fa-house"></i> Домашнє завдання</span>
+        <h2>Знайдіть STEM у власному житті</h2>
+        <p class="lede">Без інтернету й підручника — лише спостережливість дорогою до школи чи вдома.</p>
+        <div class="grid g2" style="align-items:start;">
+          <div class="card home-card">
+            <div class="hicon"><i class="fa-solid fa-binoculars"></i></div>
+            <div>
+              <b>Завдання</b>
+              <p style="font-size:.9rem; color:var(--ink-dim); margin:6px 0 0;">Знайдіть <b>три</b> приклади речей чи людей зі свого життя (пристрій удома, професія рідних чи сусідів, шкільний гурток), пов'язані зі STEM-галузями. Для кожного запишіть у зошиті, що це і до якої галузі — S, T, E чи M — воно найбільше стосується, з коротким поясненням «чому».</p>
+            </div>
+          </div>
+          <div class="card">
+            <b style="font-size:.88rem;">Формат запису в зошиті</b>
+            <div class="example-fmt" style="margin-top:10px;">
+              1. Що: _______________<br>
+              Галузь (S/T/E/M): ___<br>
+              Чому: ________________
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px; display:flex; gap:14px; align-items:flex-start;">
+          <i class="fa-solid fa-arrow-right-long" style="color:var(--accent); margin-top:4px;"></i>
+          <div style="font-size:.88rem; color:var(--ink-dim);"><b style="color:var(--ink);">Наступний урок «Я в STEM»:</b> на основі цих трьох прикладів ви побудуєте особисту інтелект-карту «STEM навколо мене» — і вперше замислитесь, де саме ви сам(а) вже є частиною STEM-спільноти.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="bottombar">
+    <div class="nav-cluster">
+      <button class="nav-btn" id="prevBtn"><i class="fa-solid fa-chevron-left"></i> Назад</button>
+      <span class="counter mono" id="counter">1 / 9</span>
+      <button class="nav-btn primary" id="nextBtn">Далі <i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+    <div class="hint"><span class="kbd">←</span><span class="kbd">→</span> навігація слайдами</div>
+  </div>
+
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-card">
+      <h3>Слайди уроку</h3>
+      <p class="lede">Оберіть розділ, щоб перейти напряму.</p>
+      <div class="menu-list" id="menuList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var current = 0;
+
+  function renderMenu(){
+    var list = document.getElementById('menuList');
+    list.innerHTML = '';
+    slides.forEach(function(s, i){
+      var item = document.createElement('button');
+      item.className = 'menu-item' + (i === current ? ' current' : '');
+      item.innerHTML = '<span class="num mono">' + String(i+1).padStart(2,'0') + '</span>' +
+        '<span><span class="ttl">' + s.dataset.title + '</span><br><span class="sub">' + s.dataset.sub + '</span></span>';
+      item.addEventListener('click', function(){ goTo(i); closeMenu(); });
+      list.appendChild(item);
+    });
+  }
+
+  function goTo(i){
+    if(i < 0 || i >= total) return;
+    slides[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    document.getElementById('counter').textContent = (current+1) + ' / ' + total;
+    document.getElementById('progressFill').style.width = (((current+1)/total)*100) + '%';
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === total - 1;
+    renderMenu();
+  }
+
+  function openMenu(){ document.getElementById('menuOverlay').classList.add('open'); renderMenu(); }
+  function closeMenu(){ document.getElementById('menuOverlay').classList.remove('open'); }
+
+  document.getElementById('prevBtn').addEventListener('click', function(){ goTo(current-1); });
+  document.getElementById('nextBtn').addEventListener('click', function(){ goTo(current+1); });
+  document.getElementById('menuBtn').addEventListener('click', openMenu);
+  document.getElementById('menuOverlay').addEventListener('click', function(e){ if(e.target.id === 'menuOverlay') closeMenu(); });
+
+  goTo(0);
+
+  document.addEventListener('keydown', function(e){
+    var tag = (e.target && e.target.tagName) || '';
+    if(tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if(e.key === 'Escape'){ closeMenu(); return; }
+    if(document.getElementById('menuOverlay').classList.contains('open')) return;
+    if(e.key === 'ArrowRight' || e.key === 'PageDown'){ goTo(current+1); }
+    if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ goTo(current-1); }
+    if(e.key === 'Home'){ goTo(0); }
+    if(e.key === 'End'){ goTo(total-1); }
+  });
+
+  var themeBtn = document.getElementById('themeBtn');
+  function applyStoredTheme(){
+    try{
+      var t = localStorage.getItem('stem7l1-theme');
+      if(t) document.documentElement.setAttribute('data-theme', t);
+    }catch(e){}
+  }
+  themeBtn.addEventListener('click', function(){
+    var root = document.documentElement;
+    var cur = root.getAttribute('data-theme');
+    var sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var next;
+    if(!cur){ next = sysDark ? 'light' : 'dark'; }
+    else if(cur === 'dark'){ next = 'light'; }
+    else { next = 'dark'; }
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('stem7l1-theme', next); }catch(e){}
+  });
+  applyStoredTheme();
+
+  var SVG_ATTRS = 'width="100%" height="100%" fill="none" stroke-linecap="round" stroke-linejoin="round"';
+  var ICONS = {
+    flashlight: '<svg viewBox="0 0 120 90" ' + SVG_ATTRS + '>' +
+      '<rect x="14" y="34" width="46" height="22" rx="7" stroke="var(--t)" stroke-width="4" fill="var(--t-soft)"/>' +
+      '<path d="M60 34 L80 24 L80 66 L60 56 Z" stroke="var(--t)" stroke-width="4" fill="var(--t-soft)"/>' +
+      '<circle cx="82" cy="45" r="3.2" fill="var(--s)"/>' +
+      '<line x1="90" y1="45" x2="104" y2="45" stroke="var(--s)" stroke-width="3.4"/>' +
+      '<line x1="88" y1="33" x2="100" y2="24" stroke="var(--s)" stroke-width="3.4"/>' +
+      '<line x1="88" y1="57" x2="100" y2="66" stroke="var(--s)" stroke-width="3.4"/>' +
+      '<rect x="24" y="27" width="10" height="7" rx="2.5" fill="var(--e)"/>' +
+      '<line x1="22" y1="41" x2="22" y2="49" stroke="var(--m)" stroke-width="3"/>' +
+      '<line x1="30" y1="41" x2="30" y2="49" stroke="var(--m)" stroke-width="3"/>' +
+      '</svg>',
+    smartphone: '<svg viewBox="0 0 70 110" ' + SVG_ATTRS + '>' +
+      '<rect x="10" y="6" width="50" height="98" rx="11" stroke="var(--t)" stroke-width="4" fill="var(--t-soft)"/>' +
+      '<rect x="16" y="18" width="38" height="66" rx="3" stroke="var(--ink-faint)" stroke-width="2" fill="var(--surface)"/>' +
+      '<rect x="28" y="10" width="14" height="3" rx="1.5" fill="var(--e)"/>' +
+      '<circle cx="35" cy="12.5" r="1.8" fill="var(--s)"/>' +
+      '<rect x="27" y="92" width="16" height="3" rx="1.5" fill="var(--m)"/>' +
+      '<line x1="64" y1="8" x2="64" y2="102" stroke="var(--m)" stroke-width="2"/>' +
+      '<line x1="60" y1="8" x2="68" y2="8" stroke="var(--m)" stroke-width="2"/>' +
+      '<line x1="60" y1="102" x2="68" y2="102" stroke="var(--m)" stroke-width="2"/>' +
+      '</svg>',
+    bicycle: '<svg viewBox="0 0 160 110" ' + SVG_ATTRS + '>' +
+      '<circle cx="30" cy="78" r="23" stroke="var(--s)" stroke-width="4"/>' +
+      '<circle cx="130" cy="78" r="23" stroke="var(--s)" stroke-width="4"/>' +
+      '<circle cx="30" cy="78" r="2.4" fill="var(--s)"/>' +
+      '<circle cx="130" cy="78" r="2.4" fill="var(--s)"/>' +
+      '<line x1="30" y1="78" x2="80" y2="28" stroke="var(--t)" stroke-width="4"/>' +
+      '<line x1="80" y1="28" x2="112" y2="34" stroke="var(--t)" stroke-width="4"/>' +
+      '<line x1="112" y1="34" x2="74" y2="78" stroke="var(--t)" stroke-width="4"/>' +
+      '<line x1="112" y1="34" x2="130" y2="78" stroke="var(--t)" stroke-width="4"/>' +
+      '<line x1="80" y1="28" x2="80" y2="18" stroke="var(--t)" stroke-width="4"/>' +
+      '<rect x="70" y="13" width="20" height="7" rx="3.5" stroke="var(--t)" stroke-width="3" fill="var(--t-soft)"/>' +
+      '<line x1="112" y1="34" x2="112" y2="22" stroke="var(--t)" stroke-width="4"/>' +
+      '<line x1="102" y1="22" x2="122" y2="22" stroke="var(--t)" stroke-width="4"/>' +
+      '<line x1="74" y1="78" x2="30" y2="78" stroke="var(--e)" stroke-width="4" stroke-dasharray="2 5"/>' +
+      '<circle cx="74" cy="78" r="7" stroke="var(--e)" stroke-width="3.4"/>' +
+      '<line x1="46" y1="101" x2="114" y2="101" stroke="var(--m)" stroke-width="2.4"/>' +
+      '<line x1="46" y1="97" x2="46" y2="105" stroke="var(--m)" stroke-width="2.4"/>' +
+      '<line x1="114" y1="97" x2="114" y2="105" stroke="var(--m)" stroke-width="2.4"/>' +
+      '</svg>',
+    kettle: '<svg viewBox="0 0 100 115" ' + SVG_ATTRS + '>' +
+      '<path d="M25 108 L25 58 C25 36 32 24 50 24 C68 24 75 36 75 58 L75 108 Z" stroke="var(--t)" stroke-width="4" fill="var(--t-soft)"/>' +
+      '<ellipse cx="50" cy="24" rx="15" ry="4.5" stroke="var(--t)" stroke-width="3" fill="var(--surface)"/>' +
+      '<circle cx="50" cy="17" r="3.2" fill="var(--t)"/>' +
+      '<path d="M75 46 L93 30 L93 39 L79 53 Z" stroke="var(--t)" stroke-width="3" fill="var(--t-soft)"/>' +
+      '<path d="M25 58 C6 58 6 92 25 92" stroke="var(--e)" stroke-width="4"/>' +
+      '<path d="M33 100 L41 92 L49 100 L57 92 L65 100" stroke="var(--s)" stroke-width="3.2"/>' +
+      '<line x1="25" y1="66" x2="31" y2="66" stroke="var(--m)" stroke-width="2.4"/>' +
+      '<line x1="25" y1="78" x2="31" y2="78" stroke="var(--m)" stroke-width="2.4"/>' +
+      '<line x1="25" y1="90" x2="31" y2="90" stroke="var(--m)" stroke-width="2.4"/>' +
+      '</svg>',
+    scale: '<svg viewBox="0 0 120 95" ' + SVG_ATTRS + '>' +
+      '<rect x="40" y="10" width="40" height="22" rx="5" stroke="var(--m)" stroke-width="3.4" fill="var(--m-soft)"/>' +
+      '<line x1="48" y1="16" x2="48" y2="26" stroke="var(--m)" stroke-width="2.6"/>' +
+      '<line x1="56" y1="16" x2="56" y2="26" stroke="var(--m)" stroke-width="2.6"/>' +
+      '<line x1="64" y1="16" x2="72" y2="16" stroke="var(--m)" stroke-width="2.6"/>' +
+      '<line x1="64" y1="21" x2="72" y2="21" stroke="var(--m)" stroke-width="2.6"/>' +
+      '<line x1="64" y1="26" x2="72" y2="26" stroke="var(--m)" stroke-width="2.6"/>' +
+      '<path d="M55 37 L60 31 L65 37 M60 40 L60 32" stroke="var(--s)" stroke-width="3.2"/>' +
+      '<rect x="14" y="40" width="92" height="16" rx="7" stroke="var(--t)" stroke-width="4" fill="var(--t-soft)"/>' +
+      '<circle cx="24" cy="48" r="3" stroke="var(--e)" stroke-width="2.6"/>' +
+      '<circle cx="96" cy="48" r="3" stroke="var(--e)" stroke-width="2.6"/>' +
+      '<rect x="10" y="58" width="100" height="9" rx="3.5" stroke="var(--t)" stroke-width="3.4" fill="var(--t-soft)"/>' +
+      '</svg>'
+  };
+  var flashlightArtEl = document.getElementById('flashlightArt');
+  if(flashlightArtEl) flashlightArtEl.innerHTML = ICONS.flashlight;
+  var bikeArtEl = document.getElementById('bikeArt');
+  if(bikeArtEl) bikeArtEl.innerHTML = ICONS.bicycle;
+
+  var LETTERS = [
+    {k:'S', full:'Science', ua:'Наука', q:'Як це працює з точки зору фізики, хімії чи біології?', ex:'Тертя коліс об дорогу — фізичне явище, яке дає колесу зчепитися з дорогою.', icon:'fa-atom'},
+    {k:'T', full:'Technology', ua:'Технології', q:'З яких матеріалів це зроблено і які технологічні рішення тут використані?', ex:'Матеріал рами (алюміній/сталь) та гумові шини — вибір матеріалу й спосіб обробки.', icon:'fa-microchip'},
+    {k:'E', full:'Engineering', ua:'Інженерія', q:'Як це сконструйовано, з яких частин складається і як вони з’єднані між собою?', ex:'Ланцюгова передача перетворює обертання педалей на рух колеса — механізм.', icon:'fa-gears'},
+    {k:'M', full:'Mathematics', ua:'Математика', q:'Де тут є числа, вимірювання, форми, розрахунки?', ex:'Розмір коліс, кількість передач, кут керма — вимірювані величини.', icon:'fa-calculator'}
+  ];
+
+  var letterCardsEl = document.getElementById('letterCards');
+  LETTERS.forEach(function(L){
+    var card = document.createElement('div');
+    card.className = 'flip-card';
+    card.innerHTML =
+      '<div class="flip-inner">' +
+        '<div class="flip-face flip-front letter-tile" data-l="' + L.k + '">' +
+          '<div class="letter-glyph">' + L.k + '</div>' +
+          '<div style="margin-top:12px; font-weight:700; font-size:.95rem;">' + L.full + '</div>' +
+          '<div style="font-size:.8rem; color:var(--ink-dim);">' + L.ua + '</div>' +
+          '<div class="flip-hint"><i class="fa-solid fa-hand-pointer"></i> натисніть, щоб побачити приклад</div>' +
+        '</div>' +
+        '<div class="flip-face flip-back" data-l="' + L.k + '">' +
+          '<i class="fa-solid ' + L.icon + '" style="color:var(--' + L.k.toLowerCase() + '); font-size:1.2rem;"></i>' +
+          '<div style="font-weight:600; font-size:.86rem; margin:8px 0 8px;">' + L.q + '</div>' +
+          '<div style="font-size:.8rem; color:var(--ink-dim); margin-top:auto; padding-top:8px; border-top:1px dashed var(--border);"><b>Приклад:</b> ' + L.ex + '</div>' +
+        '</div>' +
+      '</div>';
+    card.addEventListener('click', function(){ card.classList.toggle('flipped'); });
+    letterCardsEl.appendChild(card);
+  });
+
+  var RIDDLE = [
+    {line:'Крок 1', q:'Хтось повинен був відкрити явище електрики й те, як воно рухається по провідниках. Це яка наука?', a:'Фізика — природнича наука. Тож це літера S (Science).', l:'S'},
+    {line:'Крок 2', q:'Хтось повинен був придумати матеріал для корпусу — пластик, який не проводить струм, — і технологію виготовлення лампочки чи світлодіода. Це вже..?', a:'Технології. Це літера T (Technology).', l:'T'},
+    {line:'Крок 3', q:'Хтось повинен був спроєктувати, як саме розмістити батарейки, кнопку, лампочку й дроти всередині корпусу, щоб усе працювало. Це..?', a:'Інженерія — людина, яка проєктує механізми, це інженер. Це літера E (Engineering).', l:'E'},
+    {line:'Крок 4', q:'Щоб розрахувати, скільки енергії дає батарейка, як довго вона протримається, яка потрібна товщина дроту — без якої науки тут не обійтись?', a:'Математика. Це літера M (Mathematics). S-T-E-M!', l:'M'}
+  ];
+  var riddleStep = -1;
+  var riddleRevealed = [];
+
+  function renderRiddleDots(){
+    var el = document.getElementById('riddleDots');
+    el.innerHTML = '';
+    RIDDLE.forEach(function(_, i){
+      var d = document.createElement('i');
+      if(i <= riddleStep) d.classList.add('on');
+      el.appendChild(d);
+    });
+  }
+
+  function renderRiddle(){
+    var body = document.getElementById('riddleBody');
+    if(riddleStep < 0){
+      body.innerHTML =
+        '<div class="riddle-line">Загадка вчителя</div>' +
+        '<p class="riddle-q">«Подивіться на цей звичайний ліхтарик. Скільки різних шкільних предметів знадобилося людству, щоб придумати й зробити цей простий пристрій?»</p>' +
+        '<div class="riddle-a">Зазвичай клас каже «один» або «два». Натисніть «Наступна підказка», щоб перевірити.</div>';
+    } else {
+      var step = RIDDLE[riddleStep];
+      var revealed = riddleRevealed[riddleStep];
+      body.innerHTML =
+        '<div class="riddle-line">' + step.line + ' з 4</div>' +
+        '<p class="riddle-q">' + step.q + '</p>' +
+        '<div class="riddle-a' + (revealed ? ' revealed' : '') + '" id="riddleAnswerBox">' +
+          (revealed ? step.a : 'Натисніть «Показати відповідь»') +
+        '</div>';
+      if(!revealed){
+        var btn = document.createElement('button');
+        btn.className = 'btn small';
+        btn.style.marginTop = '12px';
+        btn.innerHTML = '<i class="fa-solid fa-eye"></i> Показати відповідь';
+        btn.addEventListener('click', function(){
+          riddleRevealed[riddleStep] = true;
+          renderRiddle();
+          fillLetterStrip();
+        });
+        body.appendChild(btn);
+      }
+    }
+    renderRiddleDots();
+    document.getElementById('riddlePrev').disabled = riddleStep <= -1;
+  }
+
+  function fillLetterStrip(){
+    RIDDLE.forEach(function(step, i){
+      var slot = document.querySelector('.lslot[data-l="' + step.l + '"]');
+      if(riddleRevealed[i]) slot.classList.add('filled'); else slot.classList.remove('filled');
+    });
+  }
+
+  document.getElementById('riddleNext').addEventListener('click', function(){
+    if(riddleStep < RIDDLE.length - 1){ riddleStep++; renderRiddle(); }
+  });
+  document.getElementById('riddlePrev').addEventListener('click', function(){
+    if(riddleStep > -1){ riddleStep--; renderRiddle(); }
+  });
+  renderRiddle();
+
+  var DEVICES = [
+    {
+      id:'smartphone', name:'Смартфон', icon:'fa-mobile-screen-button',
+      desc:'Поєднує телефон, камеру, комп’ютер і доступ до інтернету в корпусі розміром з долоню.',
+      parts:[
+        {t:'Акумулятор', c:'T', why:'Хімічне джерело живлення — вибір технології зберігання енергії.'},
+        {t:'Мікрочіп (процесор)', c:'T', why:'Матеріал і технологія виготовлення електроніки (напівпровідники).'},
+        {t:'Динамік і мікрофон', c:'S', why:'Перетворення електричного сигналу на звукову хвилю і навпаки — фізика коливань.'},
+        {t:'З’єднання екрана, камери, чипа й акумулятора в одному корпусі', c:'E', why:'Конструкція: як усі частини розміщені й працюють разом як механізм.'},
+        {t:'Розмір екрана, ємність акумулятора, мегапікселі камери', c:'M', why:'Вимірювані числові характеристики пристрою.'}
+      ]
+    },
+    {
+      id:'bicycle', name:'Велосипед', icon:'fa-bicycle',
+      desc:'Транспортний засіб, що приводиться в рух м’язовою силою людини через педалі.',
+      parts:[
+        {t:'Тертя коліс об дорогу', c:'S', why:'Фізичне явище, яке не дає колесу проковзувати.'},
+        {t:'Матеріал рами, гумові шини', c:'T', why:'Вибір матеріалу (алюміній/сталь) та технологія обробки.'},
+        {t:'Ланцюгова передача, з’єднання рами й керма', c:'E', why:'Механізм: перетворює рух педалей на рух колеса.'},
+        {t:'Розмір коліс, кількість передач, кут керма', c:'M', why:'Числа й вимірювання, що описують конструкцію.'}
+      ]
+    },
+    {
+      id:'kettle', name:'Електрочайник', icon:'fa-mug-saucer',
+      desc:'Побутовий прилад для нагрівання й кип’ятіння води.',
+      parts:[
+        {t:'Нагрівання металу при проходженні струму', c:'S', why:'Фізичне явище — основа роботи нагрівального елемента.'},
+        {t:'Сплав нагрівального елемента, матеріал корпусу', c:'T', why:'Вибір матеріалу, щоб елемент довго не перегорав.'},
+        {t:'З’єднання елемента, термостата, корпуса й шнура', c:'E', why:'Механізм, що автоматично вимикає прилад при закипанні.'},
+        {t:'Об’єм у літрах, потужність у ватах, час закипання', c:'M', why:'Вимірювані технічні характеристики.'}
+      ]
+    },
+    {
+      id:'scale', name:'Кухонні ваги', icon:'fa-weight-scale',
+      desc:'Прилад для точного вимірювання маси продуктів під час приготування їжі.',
+      parts:[
+        {t:'Перетворення тиску на електричний сигнал у тензодатчику', c:'S', why:'Фізичне явище, на якому базується вимірювання ваги.'},
+        {t:'Матеріал платформи, електронний дисплей', c:'T', why:'Технологія виготовлення корпуса й екрана.'},
+        {t:'З’єднання платформи, датчика й дисплея', c:'E', why:'Механізм, що перетворює вагу предмета на показник на екрані.'},
+        {t:'Точність вимірювання (г), максимальна вага, кнопки', c:'M', why:'Числові характеристики приладу.'}
+      ]
+    }
+  ];
+
+  var deviceIndex = 0;
+  var classifierState = {};
+
+  function initClassifierState(){
+    DEVICES.forEach(function(d){
+      classifierState[d.id] = d.parts.map(function(){ return null; });
+    });
+  }
+  initClassifierState();
+
+  function renderDeviceTabs(){
+    var wrap = document.getElementById('deviceTabs');
+    wrap.innerHTML = '';
+    DEVICES.forEach(function(d, i){
+      var tab = document.createElement('button');
+      tab.className = 'device-tab' + (i === deviceIndex ? ' active' : '');
+      tab.innerHTML = '<i class="fa-solid ' + d.icon + '"></i> ' + d.name;
+      tab.addEventListener('click', function(){ deviceIndex = i; renderDevice(); });
+      wrap.appendChild(tab);
+    });
+  }
+
+  function renderDevice(){
+    renderDeviceTabs();
+    var d = DEVICES[deviceIndex];
+    document.getElementById('deviceIcon').innerHTML = ICONS[d.id] || '<i class="fa-solid ' + d.icon + '"></i>';
+    document.getElementById('deviceDesc').textContent = d.desc;
+    var partsEl = document.getElementById('partsList');
+    partsEl.innerHTML = '';
+    d.parts.forEach(function(p, i){
+      var row = document.createElement('div');
+      row.className = 'part-chip';
+      var current = classifierState[d.id][i];
+      var btnsHtml = ['S','T','E','M'].map(function(c){
+        return '<button class="cat-btn' + (current === c ? ' active' : '') + '" data-c="' + c + '" data-i="' + i + '">' + c + '</button>';
+      }).join('');
+      row.innerHTML =
+        '<span class="txt">' + p.t + '</span>' +
+        '<div class="cat-btns">' + btnsHtml + '</div>';
+      partsEl.appendChild(row);
+      var noteEl = document.createElement('div');
+      noteEl.className = 'reveal-note';
+      noteEl.id = 'reveal-' + i;
+      noteEl.innerHTML = '<b style="color:var(--' + p.c.toLowerCase() + ');">Підказка вчителя — ' + p.c + ':</b> ' + p.why;
+      partsEl.appendChild(noteEl);
+    });
+    partsEl.querySelectorAll('.cat-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var i = parseInt(btn.dataset.i, 10);
+        classifierState[d.id][i] = btn.dataset.c;
+        renderDevice();
+      });
+    });
+  }
+
+  document.getElementById('revealBtn').addEventListener('click', function(){
+    document.querySelectorAll('.reveal-note').forEach(function(n){ n.classList.add('on'); });
+  });
+  document.getElementById('resetClassifier').addEventListener('click', function(){
+    var d = DEVICES[deviceIndex];
+    classifierState[d.id] = d.parts.map(function(){ return null; });
+    renderDevice();
+  });
+  renderDevice();
+
+  var STEPS = [
+    {t:'Зайти в breakout-кімнату (4–5 осіб)', s:'Учитель розподіляє автоматично або вручну; усередині кімнати одразу розподіліть ролі голосом: S-дослідник, T-технолог, E-інженер, M-математик, секретар-спікер.'},
+    {t:'Відкрити картку пристрою й спільний документ', s:'Посилання — у чаті кімнати або в таблиці нижче: працюєте у спільному Google Docs / Jamboard / Miro замість паперового А3.'},
+    {t:'За 14 хвилин розібрати пристрій на S/T/E/M', s:'Заповнюєте документ разом, мікрофони увімкнені для обговорення: у кожному секторі — елемент і коротке «чому».'},
+    {t:'Завершили швидше (8–10 хв)? Додаткове завдання', s:'Яка галузь найважливіша для пристрою? Обґрунтувати письмово 2–3 реченнями в тому ж документі.'},
+    {t:'Презентація групи (1–1,5 хв)', s:'Секретар вмикає демонстрацію екрана зі спільним документом і озвучує S, T, E, M та «чому». Клас ставить одне запитання в чат або голосом.'}
+  ];
+  var checklistEl = document.getElementById('checklist');
+  STEPS.forEach(function(step, i){
+    var row = document.createElement('div');
+    row.className = 'check-row';
+    row.innerHTML =
+      '<input type="checkbox" id="chk' + i + '">' +
+      '<label for="chk' + i + '">' + step.t + '<small>' + step.s + '</small></label>';
+    checklistEl.appendChild(row);
+  });
+  checklistEl.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
+    cb.addEventListener('change', function(){
+      cb.closest('.check-row').classList.toggle('done', cb.checked);
+      try{
+        var state = STEPS.map(function(_, i){ return document.getElementById('chk'+i).checked; });
+        localStorage.setItem('stem7l1-checklist', JSON.stringify(state));
+      }catch(e){}
+    });
+  });
+  try{
+    var saved = JSON.parse(localStorage.getItem('stem7l1-checklist') || 'null');
+    if(saved){
+      saved.forEach(function(v, i){
+        var cb = document.getElementById('chk'+i);
+        if(cb && v){ cb.checked = true; cb.closest('.check-row').classList.add('done'); }
+      });
+    }
+  }catch(e){}
+
+  var GROUP_NAMES = ['Група 1', 'Група 2', 'Група 3', 'Група 4', 'Група 5', 'Група 6'];
+  var groupLinksEl = document.getElementById('groupLinks');
+  var savedLinks = {};
+  try{ savedLinks = JSON.parse(localStorage.getItem('stem7l1-links') || '{}'); }catch(e){}
+  GROUP_NAMES.forEach(function(name, i){
+    var row = document.createElement('div');
+    row.className = 'link-row';
+    row.innerHTML =
+      '<span class="lbl">' + name + '</span>' +
+      '<input type="text" id="glink' + i + '" placeholder="Посилання на breakout-кімнату або спільний документ">';
+    groupLinksEl.appendChild(row);
+    var input = row.querySelector('input');
+    if(savedLinks[i]) input.value = savedLinks[i];
+    input.addEventListener('input', function(){
+      savedLinks[i] = input.value;
+      try{ localStorage.setItem('stem7l1-links', JSON.stringify(savedLinks)); }catch(e){}
+    });
+  });
+
+  var timerSeconds = 840;
+  var timerTotal = 840;
+  var timerRunning = false;
+  var timerInterval = null;
+
+  function formatTime(s){
+    var m = Math.floor(s/60), sec = s%60;
+    return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+  }
+  function renderTimer(){
+    document.getElementById('timerDisplay').textContent = formatTime(timerSeconds);
+    document.getElementById('timerDisplay').style.color = timerSeconds <= 30 && timerSeconds > 0 ? 'var(--bad)' : 'var(--ink)';
+  }
+  document.querySelectorAll('[data-preset]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      clearInterval(timerInterval); timerRunning = false;
+      timerTotal = parseInt(btn.dataset.preset, 10);
+      timerSeconds = timerTotal;
+      document.getElementById('timerLabel').textContent = timerTotal === 840 ? 'Практична робота' : 'Презентації груп';
+      document.getElementById('timerStart').innerHTML = '<i class="fa-solid fa-play"></i> Старт';
+      renderTimer();
+    });
+  });
+  document.getElementById('timerStart').addEventListener('click', function(){
+    if(timerRunning){
+      clearInterval(timerInterval); timerRunning = false;
+      this.innerHTML = '<i class="fa-solid fa-play"></i> Старт';
+    } else {
+      if(timerSeconds <= 0) timerSeconds = timerTotal;
+      timerRunning = true;
+      this.innerHTML = '<i class="fa-solid fa-pause"></i> Пауза';
+      var self = this;
+      timerInterval = setInterval(function(){
+        timerSeconds--;
+        if(timerSeconds <= 0){
+          timerSeconds = 0; clearInterval(timerInterval); timerRunning = false;
+          self.innerHTML = '<i class="fa-solid fa-play"></i> Старт';
+        }
+        renderTimer();
+      }, 1000);
+    }
+  });
+  document.getElementById('timerReset').addEventListener('click', function(){
+    clearInterval(timerInterval); timerRunning = false;
+    timerSeconds = timerTotal;
+    document.getElementById('timerStart').innerHTML = '<i class="fa-solid fa-play"></i> Старт';
+    renderTimer();
+  });
+  renderTimer();
+
+  var QUIZ = [
+    {q:'Що означає літера E в абревіатурі STEM?', opts:['Ecology — екологія','Engineering — інженерія: як з’єднані частини й працюють як механізм','Energy — енергія'], correct:1},
+    {q:'Матеріал рами велосипеда (наприклад, алюміній) належить до галузі:', opts:['T — технології (матеріал і процес виготовлення)','E — інженерії (конструкція)','S — науки (фізичне явище)'], correct:0},
+    {q:'Що з переліченого є прикладом M (математики) у пристрої?', opts:['Тертя коліс об дорогу','Матеріал корпусу','Кількість передач і розмір коліс'], correct:2}
+  ];
+  var quizAnswers = new Array(QUIZ.length).fill(null);
+
+  function renderQuiz(){
+    var wrap = document.getElementById('quizWrap');
+    wrap.innerHTML = '';
+    QUIZ.forEach(function(item, qi){
+      var box = document.createElement('div');
+      box.className = 'quiz-item';
+      var optsHtml = item.opts.map(function(opt, oi){
+        return '<button class="opt-btn" data-qi="' + qi + '" data-oi="' + oi + '">' + opt + '</button>';
+      }).join('');
+      box.innerHTML = '<p class="quiz-q">' + (qi+1) + '. ' + item.q + '</p><div class="quiz-opts">' + optsHtml + '</div>';
+      wrap.appendChild(box);
+    });
+    var scoreBox = document.createElement('div');
+    scoreBox.id = 'quizScore';
+    wrap.appendChild(scoreBox);
+    wrap.querySelectorAll('.opt-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var qi = parseInt(btn.dataset.qi, 10), oi = parseInt(btn.dataset.oi, 10);
+        if(quizAnswers[qi] !== null) return;
+        quizAnswers[qi] = oi;
+        var group = wrap.querySelectorAll('.opt-btn[data-qi="' + qi + '"]');
+        group.forEach(function(b){
+          b.disabled = true;
+          var boi = parseInt(b.dataset.oi, 10);
+          if(boi === QUIZ[qi].correct) b.classList.add('correct');
+          else if(boi === oi) b.classList.add('wrong');
+        });
+        maybeShowScore();
+      });
+    });
+    maybeShowScore();
+  }
+  function maybeShowScore(){
+    var box = document.getElementById('quizScore');
+    if(quizAnswers.every(function(a){ return a !== null; })){
+      var score = quizAnswers.filter(function(a, i){ return a === QUIZ[i].correct; }).length;
+      box.className = 'quiz-score';
+      box.innerHTML = '<span><i class="fa-solid fa-trophy" style="color:var(--accent); margin-right:8px;"></i>Результат: ' + score + ' / ' + QUIZ.length + '</span>' +
+        '<button class="btn small" id="quizRetry">Спробувати ще раз</button>';
+      var retry = document.getElementById('quizRetry');
+      if(retry) retry.addEventListener('click', function(){ quizAnswers = new Array(QUIZ.length).fill(null); renderQuiz(); });
+    } else {
+      box.className = ''; box.innerHTML = '';
+    }
+  }
+  renderQuiz();
+
+  var pollData = { easy:{S:0,T:0,E:0,M:0}, hard:{S:0,T:0,E:0,M:0} };
+  var chartRefs = {};
+
+  function themeColor(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  function renderFallbackBars(kind, canvasId){
+    var holder = document.getElementById(canvasId).parentElement;
+    holder.innerHTML = '<div class="fallback-bars" id="fb-' + kind + '"></div>';
+    drawFallbackBars(kind);
+  }
+  function drawFallbackBars(kind){
+    var holder = document.getElementById('fb-' + kind);
+    if(!holder) return;
+    var d = pollData[kind];
+    var max = Math.max(1, d.S, d.T, d.E, d.M);
+    holder.innerHTML = ['S','T','E','M'].map(function(c){
+      var pct = Math.round((d[c]/max)*100);
+      return '<div class="fb-row"><span class="fb-label" style="color:var(--' + c.toLowerCase() + ');">' + c + '</span>' +
+        '<span class="fb-track"><span class="fb-fill" style="width:' + pct + '%; background:var(--' + c.toLowerCase() + ');"></span></span>' +
+        '<span class="fb-count mono">' + d[c] + '</span></div>';
+    }).join('');
+  }
+
+  function buildPoll(kind, btnWrapId, canvasId){
+    var wrap = document.getElementById(btnWrapId);
+    ['S','T','E','M'].forEach(function(c){
+      var b = document.createElement('button');
+      b.className = 'poll-btn'; b.dataset.c = c; b.textContent = c;
+      b.addEventListener('click', function(){
+        pollData[kind][c]++;
+        updateChart(kind, canvasId);
+      });
+      wrap.appendChild(b);
+    });
+    try{
+      if(typeof Chart === 'undefined') throw new Error('Chart.js unavailable');
+      var ctx = document.getElementById(canvasId).getContext('2d');
+      chartRefs[kind] = new Chart(ctx, {
+        type:'bar',
+        data:{
+          labels:['S','T','E','M'],
+          datasets:[{
+            data:[0,0,0,0],
+            backgroundColor:[themeColor('--s'), themeColor('--t'), themeColor('--e'), themeColor('--m')],
+            borderRadius:6, maxBarThickness:46
+          }]
+        },
+        options:{
+          responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{display:false}, tooltip:{enabled:true} },
+          scales:{
+            y:{ beginAtZero:true, ticks:{ precision:0, color: themeColor('--ink-faint') }, grid:{ color: themeColor('--border') } },
+            x:{ ticks:{ color: themeColor('--ink-dim'), font:{ family:"'IBM Plex Mono', monospace", weight:'600' } }, grid:{ display:false } }
+          }
+        }
+      });
+    }catch(e){
+      renderFallbackBars(kind, canvasId);
+    }
+  }
+  function updateChart(kind, canvasId){
+    var d = pollData[kind];
+    if(chartRefs[kind]){
+      chartRefs[kind].data.datasets[0].data = [d.S, d.T, d.E, d.M];
+      chartRefs[kind].update();
+    } else {
+      drawFallbackBars(kind);
+    }
+  }
+  try{ buildPoll('easy', 'pollEasy', 'chartEasy'); }catch(e){ renderFallbackBars('easy','chartEasy'); }
+  try{ buildPoll('hard', 'pollHard', 'chartHard'); }catch(e){ renderFallbackBars('hard','chartHard'); }
+})();
+</script>
