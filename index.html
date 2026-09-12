@@ -468,21 +468,35 @@
   .print-warn.show{display:flex;}
 
   /* #printSheet is rendered off-screen (not display:none) so html2canvas can
-     capture real layout; it is never visible to the viewer on screen. */
+     capture real layout; it is never visible to the viewer on screen.
+     Everything below is pinned with literal colors and !important so a
+     dark theme, forced-dark-mode browser feature, or OS-level color
+     inversion can never leak into the captured PDF. */
   #printSheet{
     position:fixed; top:0; left:-10000px; width:720px; z-index:-1;
-    font-family:'IBM Plex Sans', Arial, sans-serif; color:#14162a; background:#ffffff;
+    font-family:'IBM Plex Sans', Arial, sans-serif;
     padding:34px;
+    color-scheme:light !important;
   }
-  #printSheet h1{font-family:'Unbounded','Segoe UI',sans-serif; font-size:1.4rem; margin:0 0 4px; color:#14162a;}
-  #printSheet h2{font-family:'Unbounded','Segoe UI',sans-serif; font-size:1.05rem; margin:22px 0 8px; color:#14162a; border-bottom:2px solid #14162a; padding-bottom:4px;}
-  #printSheet .ps-badge{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:#5b3fd6; margin-bottom:8px;}
-  #printSheet .ps-meta{display:flex; gap:22px; flex-wrap:wrap; font-size:.85rem; margin:10px 0 4px; color:#333;}
+  #printSheet, #printSheet *{
+    color:#14162a !important;
+    -webkit-text-fill-color:#14162a !important;
+    background-color:transparent !important;
+    border-color:#cccccc !important;
+    box-shadow:none !important;
+    text-shadow:none !important;
+  }
+  #printSheet{ background-color:#ffffff !important; }
+  #printSheet h1,#printSheet h2{font-family:'Unbounded','Segoe UI',sans-serif;}
+  #printSheet h1{font-size:1.4rem; margin:0 0 4px;}
+  #printSheet h2{font-size:1.05rem; margin:22px 0 8px; border-bottom:2px solid #14162a !important; padding-bottom:4px;}
+  #printSheet .ps-badge{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:#5b3fd6 !important; -webkit-text-fill-color:#5b3fd6 !important; margin-bottom:8px;}
+  #printSheet .ps-meta{display:flex; gap:22px; flex-wrap:wrap; font-size:.85rem; margin:10px 0 4px;}
   #printSheet table{width:100%; border-collapse:collapse; font-size:.82rem; margin-bottom:6px;}
-  #printSheet th,#printSheet td{border:1px solid #ccc; padding:6px 8px; text-align:left; vertical-align:top;}
-  #printSheet th{background:#f1f1f6; font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.04em;}
+  #printSheet th,#printSheet td{border:1px solid #cccccc !important; padding:6px 8px; text-align:left; vertical-align:top;}
+  #printSheet th{background-color:#f1f1f6 !important; font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.04em;}
   #printSheet .ps-letter{font-weight:700; font-family:'Unbounded',sans-serif;}
-  #printSheet .ps-foot{margin-top:20px; font-size:.72rem; color:#777; border-top:1px solid #ddd; padding-top:8px;}
+  #printSheet .ps-foot{margin-top:20px; font-size:.72rem; color:#777777 !important; -webkit-text-fill-color:#777777 !important; border-top:1px solid #dddddd !important; padding-top:8px;}
   #printSheet p{font-size:.85rem; line-height:1.5;}
 </style>
 
@@ -1532,7 +1546,30 @@
         showPrintWarn('Не вдалося завантажити інструмент для PDF. Перевір інтернет-з’єднання й спробуй ще раз.');
         return;
       }
-      html2canvas(sheet, {scale:2, backgroundColor:'#ffffff', useCORS:true}).then(function(canvas){
+      html2canvas(sheet, {
+        scale:2, backgroundColor:'#ffffff', useCORS:true,
+        onclone:function(clonedDoc){
+          // Belt-and-suspenders: force literal colors on the CLONE
+          // html2canvas actually rasterizes, so no dark theme / forced
+          // dark mode can leak white text into the PDF.
+          var clonedSheet = clonedDoc.getElementById('printSheet');
+          if(!clonedSheet) return;
+          clonedSheet.style.setProperty('background-color', '#ffffff', 'important');
+          clonedSheet.querySelectorAll('*').forEach(function(el){
+            el.style.setProperty('color', '#14162a', 'important');
+            el.style.setProperty('-webkit-text-fill-color', '#14162a', 'important');
+            el.style.setProperty('background-color', 'transparent', 'important');
+            el.style.setProperty('border-color', '#cccccc', 'important');
+          });
+          clonedSheet.querySelectorAll('th').forEach(function(el){
+            el.style.setProperty('background-color', '#f1f1f6', 'important');
+          });
+          var badge = clonedSheet.querySelector('.ps-badge');
+          if(badge){ badge.style.setProperty('color', '#5b3fd6', 'important'); badge.style.setProperty('-webkit-text-fill-color', '#5b3fd6', 'important'); }
+          var foot = clonedSheet.querySelector('.ps-foot');
+          if(foot){ foot.style.setProperty('color', '#777777', 'important'); foot.style.setProperty('-webkit-text-fill-color', '#777777', 'important'); }
+        }
+      }).then(function(canvas){
         var jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : null;
         if(!jsPDFCtor){
           setPrintBtnState('idle');
